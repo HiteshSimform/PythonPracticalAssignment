@@ -44,7 +44,7 @@ class ParenthesesGenerator:
 
     def _backtrack(self, current: str, open_count: int, close_count: int):
         """
-        Helper function to generate parentheses using backtracking.
+        Generate parentheses using backtracking.
         
         Args:
             current (str): The current sequence of parentheses being built.
@@ -63,12 +63,12 @@ class ParenthesesGenerator:
 
 class UserInput:
     """
-    A utility class to handle user input.
+    Handle user input.
     """
     @staticmethod
     def get_input() -> int:
         """
-        Prompts the user for input and ensures it is a valid non-negative integer.
+        Takes user input and validate non-negative integer.
         
         Returns:
             int: The number of bracket pairs.
@@ -84,7 +84,7 @@ class UserInput:
 
 def main():
     """
-    Main function to drive the program.
+    Main function 
     """
     num_brackets = UserInput.get_input()
 
