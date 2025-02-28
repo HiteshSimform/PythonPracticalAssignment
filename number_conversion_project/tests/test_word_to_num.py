@@ -1,5 +1,3 @@
-# tests/test_word_to_num.py
-
 import unittest
 from number_conversion.word_to_num import WordToNumConverter
 

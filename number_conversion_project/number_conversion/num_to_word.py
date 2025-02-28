@@ -1,5 +1,3 @@
-# number_conversion/num_to_word.py
-
 from number_conversion.mappings import digits
 from number_conversion.conversion_base import ConversionBase
 

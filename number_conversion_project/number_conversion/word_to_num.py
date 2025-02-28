@@ -1,75 +1,64 @@
-# number_conversion/word_to_num.py
-
 from number_conversion.conversion_base import ConversionBase
+from number_conversion.mappings import word_to_digit_map
 
 class WordToNumConverter(ConversionBase):
     """
-    Converts a word representing a number to its numerical value.
+    A class to convert numbers written in words into their numeric form.
+    
+    Example:
+        "twenty one" -> 21
+        "three hundred" -> 300
     """
-
+    
     def __init__(self):
-        self.number = ""
-        self.word_to_digit_map = {
-            "zero": ("0", 4),
-            "one": ("1", 3),
-            "two": ("2", 3),
-            "three": ("3", 5),
-            "four": ("4", 4),
-            "five": ("5", 4),
-            "six": ("6", 3),
-            "seven": ("7", 5),
-            "eight": ("8", 5),
-            "nine": ("9", 4),
-        }
-
-    def convert(self, string: str) -> str:
+        # Dictionary mapping word-based numbers to their numeric string equivalents
+        self.word_to_digit_map = word_to_digit_map
+    
+    def convert(self, word: str) -> int:
         """
-        Converts a word-based number to a numeric string.
-
-        Args:
-            string (str): A string representing a number in word form.
-
-        Returns:
-            str: The numerical value as a string.
-
-        Raises:
-            TypeError: If input string is invalid.
-        """
-        if not string:
-            return ""
-
-        # Check each word manually without loops
-        word_list = list(self.word_to_digit_map.keys())  # Convert dictionary keys to list
+        Converts a word-based number into an integer.
         
-        def check_word(index=0):
-            """ Recursively checks if the string starts with a word in word_list. """
-            if index >= len(word_list):
-                raise TypeError("Invalid input format")
-            
-            word = word_list[index]
-            digit, length = self.word_to_digit_map[word]
-
-            if self.custom_startswith(string, word):  # Custom function replaces startswith()
-                return digit, length
-
-            return check_word(index + 1)  # Recursively check next word
-
-        digit, length = check_word()  # Start checking from index 0
-        return self.number + digit + self.convert(string[length:])
-
-    def custom_startswith(self, string: str, prefix: str) -> bool:
-        """
-        Recursively checks if 'string' starts with 'prefix' without using loops or built-in functions.
-
         Args:
-            string (str): The main string to check.
-            prefix (str): The prefix to match.
-
+            word (str): A number written in words (e.g., "forty two").
+        
         Returns:
-            bool: True if 'string' starts with 'prefix', False otherwise.
+            int: The numerical equivalent of the word-based number.
+                 Returns -1 if the input contains unrecognized words.
+        
+        Example:
+            convert("one hundred twenty three") -> 123
         """
-        if not prefix:  # If the prefix is empty, it's always a match
-            return True
-        if not string or string[0] != prefix[0]:  # If main string is empty or first character mismatch
-            return False
-        return self.custom_startswith(string[1:], prefix[1:])  # Recursively check next characters
+        
+        def word_to_digit(part: str, remaining: str, num: str) -> tuple:
+            """
+            A recursive function to process the input word and map it to its numeric value.
+            
+            Args:
+                part (str): A substring currently being processed.
+                remaining (str): The rest of the input word.
+                num (str): Accumulated numeric representation.
+            
+            Returns:
+                tuple: (numeric string, leftover unmatched characters)
+            """
+            
+            # Base case: If no more characters remain, return the accumulated result
+            if not remaining:
+                return num, part
+            
+            # Append the next character to the current segment being processed
+            part += remaining[0]
+            
+            # If the current segment matches a known number word, map it to a digit
+            if part in self.word_to_digit_map:
+                num += self.word_to_digit_map[part]  # Append the corresponding digit
+                part = ''  # Reset the current segment for the next word
+            
+            # Continue processing the rest of the input
+            return word_to_digit(part, remaining[1:], num)
+        
+        # Start the recursive conversion process
+        num, part_left = word_to_digit('', word, '')
+        
+        # Return the converted integer if the entire word was processed successfully
+        return int(num) if not part_left else -1

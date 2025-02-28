@@ -1,14 +1,12 @@
-# number_conversion/gcd.py
-
 class GCDComputer:
     """
-    Computes the Greatest Common Divisor (GCD) using recursion.
+    Calculation of  GCD using recursion.
     """
 
     @staticmethod
     def compute(num1: int, num2: int) -> int:
         """
-        Computes the GCD of two numbers using recursion.
+        Calculate the GCD of two numbers using recursion.
 
         Args:
             num1 (int): The first integer.
