@@ -1,5 +1,3 @@
-# number_conversion/__init__.py
-
 """
 This package contains modules for number-word conversion and GCD computation.
 """
